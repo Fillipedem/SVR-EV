@@ -28,7 +28,7 @@ med_convert = {11: lambda x: erb_dict[x],}
 file = open(medicoes, 'r')
 header = file.readline()
 
-medicoes_header = header.split(',')
+medicoes_header = [att for att in header.split('"') if len(att) > 1]
 data_medicoes = np.loadtxt(file, delimiter=',', converters=med_convert)
 
 file.close()
@@ -45,6 +45,3 @@ erbs_header = header.split(';')
 data_erbs = np.loadtxt(file, delimiter=';', converters=erbs_convert)
 
 file.close()
-
-print(erbs_header)
-print(data_erbs)
