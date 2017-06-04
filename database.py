@@ -36,8 +36,7 @@ file.close()
 # reading erbs
 erbs_convert = {0: lambda x: erb_dict[x],
                 5: lambda x: lon_dict[x],
-                7: lambda x: bcch_dict
-                [x]}
+                7: lambda x: bcch_dict[x]}
 
 file = open(erbs, 'r')
 header = file.readline()
