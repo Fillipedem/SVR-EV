@@ -9,3 +9,4 @@ dados_ERBs.csv
 .idea/vcs.xml
 .idea/workspace.xml
 .idea/vcs.xml
+__pycache__/database.cpython-36.pyc
