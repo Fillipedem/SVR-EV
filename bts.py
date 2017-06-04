@@ -13,15 +13,21 @@ bts_base = {1.0: [],
 # new bts header
 bts_header = []
 
-# PLhata path loss
-plhata = []
-
-# PLecc33 path loss
-plecc33 = []
-
-# readl path loss
-plreal = []
-
+# PLreal, PLecc33, PLhata path loss
+pathloss = {
+    1: {'plreal': [],
+        'plecc33': [],
+        'plhata': []},
+    2: {'plreal': [],
+        'plecc33': [],
+        'plhata': []},
+    3: {'plreal': [],
+        'plecc33': [],
+        'plhata': []},
+    4: {'plreal': [],
+        'plecc33': [],
+        'plhata': []}
+}
 
 
 #              #
@@ -33,9 +39,24 @@ pos = medicoes_header.index('Erb')
 
 # separado base para cada BTS
 for bts in bts_base:
-    bts_base[bts] = list(filter(lambda m: m[pos] == bts, data_medicoes))
+    bts_base[bts] = np.array(list(filter(lambda m: m[pos] == bts, data_medicoes)))
 
-print(bts_base[1])
+# setting up PLecc33 and PLhata data to be compared for each bts
+for bts in bts_base:
+    base = bts_base[bts]
+    ptloss = pathloss[bts]
+    
+    index = medicoes_header.index('PLecc33')
+    ptloss['plecc33'] = base[:, index]
+    
+    index = medicoes_header.index('PLhata')
+    ptloss['plhata'] = base[:, index]
+    
+    # getting the real Path loss
+    index = medicoes_header.index('PLreal')
+    ptloss['plreal'] = base[:, index]
+
+
 # now prepare the database
 remove_colum = []
 remove_colum.append('Erb')
@@ -57,14 +78,3 @@ for col_name in remove_colum:
         base = bts_base[bts]
         base = np.delete(base, index, 1)
     
-
-# setting up PLecc33 and PLhata data to be compared
-index = medicoes_header.index('PLecc33')
-plecc33 = data_medicoes[:, index]
-
-index = medicoes_header.index('PLhata')
-plhata = data_medicoes[:, index]
-
-# getting the real Path loss
-index = medicoes_header.index('PLreal')
-plreal = data_medicoes[:, index]
