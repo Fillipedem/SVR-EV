@@ -19,8 +19,7 @@ class SVRClassifier:
         
     def set_parameters(self, cost=16, e=0.1, y=0.1):
         
-        self.clf = SVR(kernel='rbf', C=cost, epsilon=e, gamma=y)
-
+        self.clf = SVR(kernel='rbf', C=cost, epsilon=e, gamma=1/2000)
 
             
     def predict(self, k_folds):

@@ -7,6 +7,8 @@ import random
 
 
 class CuckooSearch(Optimization):
+    
+    
     def __init__(self, dim, func, limits, num_nest=50, p=0.25):
         # search space
         self.dim = dim
@@ -23,6 +25,7 @@ class CuckooSearch(Optimization):
         # Cuckoo Search parameter
         self.num_nest = num_nest
         self.p = p
+    
     
     # public methods
     def search(self, max_iter):
