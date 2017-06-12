@@ -48,13 +48,14 @@ class CuckooSearch(Optimization):
     #                 #
     def __initialize_limits(self, limits):
         
-        if not isinstance(limits, tuple):
-            raise TypeError("args limits is not a tuple!!")
+        if len(limits) != self.dim:
+            raise ValueError("Lenght of Limits is different for vector dimension")
         
-        if len(limits) != 2:
-            raise ValueError("Len of limits is not 2!!")
+        self.lower, self.upper = [], []
         
-        self.lower, self.upper = limits
+        for l, u in limits:
+            self.lower.append(l)
+            self.upper.append(u)
     
     
     def __initialize(self):
@@ -77,8 +78,8 @@ class CuckooSearch(Optimization):
         """
         solution = []
         
-        for _ in range(self.dim):
-            solution.append(random.uniform(self.lower, self.upper))
+        for i in range(self.dim):
+            solution.append(random.uniform(self.lower[i], self.upper[i]))
         
         return solution
     
@@ -90,7 +91,7 @@ class CuckooSearch(Optimization):
         for idx, x in enumerate(cuckoo):
             step = levy_distro(2.0)
             
-            while x + step > self.upper or x + step < self.lower:
+            while x + step > self.upper[idx] or x + step < self.lower[idx]:
                 step = levy_distro(2.0)
                 
             new_egg.append(x + step)
@@ -107,6 +108,7 @@ class CuckooSearch(Optimization):
         """
         
         # first steps is evaluated all eggs fitness
+        print("Calculando fitness de cada ovo!")
         nests_fitness = []
         
         for egg in self.nests:
@@ -114,8 +116,14 @@ class CuckooSearch(Optimization):
         
         population = list(zip(self.nests, nests_fitness))
         
+        # log
+        print("Começando Cuckoo Search!")
+
         # while max_iter
         while max_iter:
+            # log
+            print("Iterações faltando: {}".format(max_iter))
+            
             # get a random cuckoo and use levy flights
             idx = random.randint(0, self.num_nest - 1)
             
