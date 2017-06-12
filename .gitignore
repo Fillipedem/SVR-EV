@@ -10,3 +10,7 @@ dados_ERBs.csv
 .idea/workspace.xml
 .idea/vcs.xml
 __pycache__/database.cpython-36.pyc
+optimization/__pycache__/__init__.cpython-36.pyc
+optimization/__pycache__/cuckoosearch.cpython-36.pyc
+*.pyc
+tests.py
